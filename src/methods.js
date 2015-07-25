@@ -22,7 +22,7 @@ methods.instance.spy = function (callback) {
 }
 
 methods.static.sleep = methods.instance.sleep = function (duration) {
-  let d = this instanceof Deferred ?
+  const d = this instanceof Deferred ?
     this : Deferred.resolve()
 
   return d.spy((x) => {
@@ -67,7 +67,7 @@ methods.static.map = methods.static.parallel = (deferreds) => {
 methods.static.some = methods.static.race = (deferreds) => {
   let pending = true
   let pendingCount = deferreds.length
-  let errors = []
+  const errors = []
   const workerDeferred = new Deferred()
 
   for (let [ idx, deferred ] of deferreds.entries()) {
