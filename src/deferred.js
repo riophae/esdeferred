@@ -64,4 +64,4 @@ Deferred._executeAsync = (callbackName, x) => {
   return d
 }
 
-export default Deferred
+export { Deferred }

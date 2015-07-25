@@ -1,4 +1,4 @@
-import Deferred from './deferred'
+import { Deferred } from './deferred'
 
 class DeferredAsync extends Deferred {
   constructor (...funcs) {
@@ -6,4 +6,4 @@ class DeferredAsync extends Deferred {
   }
 }
 
-export default DeferredAsync
+export { DeferredAsync }
