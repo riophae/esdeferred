@@ -8,7 +8,7 @@ const methods = {
 methods.instance.spy = function (callback) {
   return this.then((val) => {
     return Deferred.resolve().then(() => {
-      return Deferred.success(callback(val))
+      return callback(val)
     }).always(() => {
       return Deferred.success(val)
     })
