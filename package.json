@@ -1,0 +1,26 @@
+{
+  "name": "esdeferred",
+  "version": "0.0.1",
+  "description": "A lightweight Deferred implementation on top of ECMAScript 6 Promise, inspired by JSDeferred",
+  "main": "dist/",
+  "scripts": {
+    "lint": "standard src/ && echo standard-lint passed",
+    "test": "npm run lint && babel-node test/"
+  },
+  "keywords": [
+    "deferred",
+    "promise",
+    "jsdeferred",
+    "es6"
+  ],
+  "author": "Riophae Lee <riophaelee@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.merge": "^3.3.2",
+    "yaku": "^0.3.6"
+  },
+  "devDependencies": {
+    "babel": "^5.8.5",
+    "standard": "^4.5.4"
+  }
+}
