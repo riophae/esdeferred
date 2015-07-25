@@ -68,14 +68,24 @@ function test3 () {
 
 function test4 () {
   const arr = [ 1, 2, 3, 4, 5 ].reverse()
-  const deferreds = arr.map((num => {
+  const deferreds = arr.map((num) => {
     const delay = num * 200
     console.log('#%d sleeping %dms...', num, delay)
     return Deferred.sleep(delay).then(() => {
       console.log('resolved:', num)
       return num * 100
     })
-  }))
+  })
   Deferred.map(deferreds).then((result) => console.log('result', result))
 }
 // test4()
+
+function test5 () {
+  let d = Deferred.resolve()
+  d.then(function () {
+    return Deferred.reject('err').then(log).catch((err) => {
+      console.error('error:', err)
+    })
+  })
+}
+test5()

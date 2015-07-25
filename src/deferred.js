@@ -4,10 +4,7 @@ import utils from './utils'
 
 class Deferred {
   constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
-    this.cb = {
-      onFulfilled,
-      onRejected
-    }
+    this.cb = { onFulfilled, onRejected }
 
     this._next = null
 
@@ -15,8 +12,8 @@ class Deferred {
     this._afterRejected = this._executeNext.bind(this, 'onRejected')
   }
 
-  then (onFulfilled, onRejected) {
-    this._next = new Deferred(onFulfilled, onRejected)
+  then (...callbacks) {
+    this._next = new Deferred(...callbacks)
     return this._next
   }
 
