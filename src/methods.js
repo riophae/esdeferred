@@ -81,7 +81,7 @@ methods.static.some = methods.static.race = (deferreds) => {
         errors[idx] = err
         if (--pendingCount === 0) {
           pending = false
-          return Deferred.error(errors)
+          workerDeferred.reject(errors)
         }
       }
     })
