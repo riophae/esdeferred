@@ -91,22 +91,21 @@ methods.static.some = methods.static.race = (deferreds) => {
 }
 
 methods.static.every = (deferreds) => {
-  let pending = true
+  let noErrors = true
   let pendingCount = deferreds.length
   const data = []
   const workerDeferred = new Deferred()
 
   for (let [ idx, deferred ] of deferreds.entries()) {
     deferred.then((val) => {
-      if (pending === true) {
+      if (noErrors === true) {
         data[idx] = val
         if (--pendingCount === 0) {
-          pending = false
           workerDeferred.resolve(data)
         }
       }
     }, (err) => {
-      pending = false
+      noErrors = false
       return Deferred.error(err)
     })
   }
