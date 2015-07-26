@@ -7,3 +7,5 @@ ESDeferred 是一个轻量化的基于 ECMAScript 6 Promises 的 Deferred 库，
 ## License
 
 MIT License, Copyright (c) 2015 Riophae Lee
+
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
