@@ -10,13 +10,13 @@
   "keywords": [
     "deferred",
     "promise",
+    "esdeferred",
     "jsdeferred",
     "es6"
   ],
   "author": "Riophae Lee <riophaelee@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "lodash.merge": "^3.3.2",
     "yaku": "^0.3.6"
   },
   "devDependencies": {

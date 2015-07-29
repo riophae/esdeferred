@@ -1,11 +1,9 @@
 import { Deferred } from './deferred'
 
-const methods = {
-  static: {},
-  instance: {}
-}
+const staticMethods = {}
+const instanceMethods = {}
 
-methods.instance.spy = function (callback) {
+instanceMethods.spy = function (callback) {
   return this.then((val) => {
     return Deferred.resolve().then(() => {
       return callback(val)
@@ -21,7 +19,7 @@ methods.instance.spy = function (callback) {
   })
 }
 
-methods.static.sleep = methods.instance.sleep = function (duration) {
+staticMethods.sleep = instanceMethods.sleep = function (duration) {
   const d = this instanceof Deferred ?
     this : Deferred.resolve()
 
@@ -32,14 +30,14 @@ methods.static.sleep = methods.instance.sleep = function (duration) {
   })
 }
 
-methods.static.reduce = methods.static.serialize = (deferreds, initialVal) => {
+staticMethods.reduce = staticMethods.serialize = (deferreds, initialVal) => {
   return deferreds.reduce((lastDeferred, currentDeferred) => {
     lastDeferred._next = currentDeferred
     return currentDeferred
   }, Deferred.resolve(initialVal))
 }
 
-methods.static.map = methods.static.parallel = (deferreds) => {
+staticMethods.map = staticMethods.parallel = (deferreds) => {
   let noErrors = true
   let pendingCount = deferreds.length
   const data = []
@@ -64,7 +62,7 @@ methods.static.map = methods.static.parallel = (deferreds) => {
   return workerDeferred
 }
 
-methods.static.some = methods.static.race = (deferreds) => {
+staticMethods.some = staticMethods.race = (deferreds) => {
   let pending = true
   let pendingCount = deferreds.length
   const errors = []
@@ -90,7 +88,7 @@ methods.static.some = methods.static.race = (deferreds) => {
   return workerDeferred
 }
 
-methods.static.every = (deferreds) => {
+staticMethods.every = (deferreds) => {
   let noErrors = true
   let pendingCount = deferreds.length
   const data = []
@@ -113,4 +111,4 @@ methods.static.every = (deferreds) => {
   return workerDeferred
 }
 
-export default methods
+export { staticMethods, instanceMethods }

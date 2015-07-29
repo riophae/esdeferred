@@ -129,4 +129,4 @@ function test8 () {
   utils.throw('esdeferred threw an error')
   console.log('fine')
 }
-test8()
+// test8()
