@@ -13,7 +13,7 @@
   ],
   "main": "lib/",
   "scripts": {
-    "lint": "standard src/ && echo standard-lint passed",
+    "lint": "standard src/ && echo 'Standard linting passed'",
     "test": "npm run lint && babel-node test/",
     "build": "babel-node ./node_modules/.bin/gulp"
   },

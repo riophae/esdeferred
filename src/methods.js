@@ -43,7 +43,7 @@ staticMethods.map = staticMethods.parallel = (deferreds) => {
   const data = []
   const workerDeferred = new Deferred()
 
-  for (let [ idx, deferred ] of deferreds.entries()) {
+  for (const [ idx, deferred ] of deferreds.entries()) {
     deferred.catch((err) => {
       noErrors = false
       return err
@@ -68,7 +68,7 @@ staticMethods.some = staticMethods.race = (deferreds) => {
   const errors = []
   const workerDeferred = new Deferred()
 
-  for (let [ idx, deferred ] of deferreds.entries()) {
+  for (const [ idx, deferred ] of deferreds.entries()) {
     deferred.then((val) => {
       if (pending === true) {
         pending = false
@@ -94,7 +94,7 @@ staticMethods.every = (deferreds) => {
   const data = []
   const workerDeferred = new Deferred()
 
-  for (let [ idx, deferred ] of deferreds.entries()) {
+  for (const [ idx, deferred ] of deferreds.entries()) {
     deferred.then((val) => {
       if (noErrors === true) {
         data[idx] = val
