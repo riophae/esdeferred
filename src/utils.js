@@ -8,14 +8,14 @@ utils.throw = (err) => {
 }
 
 utils.entries = function * (obj) {
-  for (let key of Object.keys(obj)) {
+  for (const key of Object.keys(obj)) {
     yield [ key, obj[key] ]
   }
 }
 
 utils.merge = (to, ...froms) => {
-  for (let from of froms) {
-    for (let [ k, v ] of utils.entries(from)) {
+  for (const from of froms) {
+    for (const [ k, v ] of utils.entries(from)) {
       to[k] = v
     }
   }

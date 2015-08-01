@@ -1,0 +1,6 @@
+{
+  "extends": "./node_modules/eslint-config-standard/eslintrc.json",
+  "rules": {
+    "prefer-const": 2
+  }
+}

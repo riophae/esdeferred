@@ -13,9 +13,9 @@
   ],
   "main": "lib/",
   "scripts": {
-    "lint": "standard src/ && echo 'Standard linting passed'",
+    "lint": "eslint src/ && echo 'ESLint passed'",
     "test": "npm run lint && babel-node test/",
-    "build": "babel-node ./node_modules/.bin/gulp"
+    "build": "npm test && babel-node ./node_modules/.bin/gulp"
   },
   "keywords": [
     "deferred",
@@ -29,13 +29,14 @@
     "url": "https://github.com/riophae/esdeferred/issues"
   },
   "dependencies": {
+    "eslint": "^0.24.1",
+    "eslint-config-standard": "^3.4.1",
     "yaku": "^0.3.6"
   },
   "devDependencies": {
     "babel": "^5.8.5",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
-    "gulp-uglify": "^1.2.0",
-    "standard": "^4.5.4"
+    "gulp-uglify": "^1.2.0"
   }
 }
