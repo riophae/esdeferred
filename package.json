@@ -20,6 +20,8 @@
   "keywords": [
     "deferred",
     "promise",
+    "flow",
+    "async",
     "esdeferred",
     "jsdeferred",
     "es6"
