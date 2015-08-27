@@ -1,6 +1,6 @@
 import Promise from 'yaku'
 
-import utils from './utils'
+import { callAsync } from './utils'
 
 class Deferred {
   constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
@@ -60,7 +60,7 @@ Deferred.resolve = (val) => Deferred._executeAsync('onFulfilled', val)
 Deferred.reject = (err) => Deferred._executeAsync('onRejected', err)
 Deferred._executeAsync = (callbackName, x) => {
   const d = new Deferred()
-  utils.callAsync(() => d._execute(callbackName, x))
+  callAsync(() => d._execute(callbackName, x))
   return d
 }
 

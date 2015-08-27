@@ -1,5 +1,5 @@
 import { sync as Deferred, async as DeferredAsync } from '../src'
-import utils from '../src/utils'
+import { throwErr } from '../src/utils'
 
 const log = (x) => {
   console.log(x)
@@ -126,7 +126,7 @@ function test7 () {
 // test7()
 
 function test8 () {
-  utils.throw('esdeferred threw an error')
+  throwErr('esdeferred threw an error')
   console.log('fine')
 }
 // test8()
