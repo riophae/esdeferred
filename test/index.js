@@ -95,6 +95,7 @@ function test6 () {
   let d_head = new DeferredAsync(() => {
     return log(3)
   })
+  d_head.resolve()
   let d = d_head.then(() => {
     return log(4)
   })
@@ -103,9 +104,8 @@ function test6 () {
     return log(5)
   })
   log(2)
-  d_head.resolve()
 }
-// test6()
+test6()
 
 function test7 () {
   let d = new DeferredAsync()
