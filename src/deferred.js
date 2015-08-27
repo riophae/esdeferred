@@ -56,12 +56,12 @@ class Deferred {
 Deferred.success = (val) => val
 Deferred.error = (err) => new Promise((_, reject) => reject(err))
 
-Deferred.resolve = (val) => Deferred._executeAsync('onFulfilled', val)
-Deferred.reject = (err) => Deferred._executeAsync('onRejected', err)
 Deferred._executeAsync = (callbackName, x) => {
   const d = new Deferred()
   callAsync(() => d._execute(callbackName, x))
   return d
 }
+Deferred.resolve = (val) => Deferred._executeAsync('onFulfilled', val)
+Deferred.reject = (err) => Deferred._executeAsync('onRejected', err)
 
 export { Deferred }
