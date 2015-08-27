@@ -53,14 +53,9 @@ staticMethods.map = staticMethods.parallel = (deferreds) => {
       ret[idx] = arr
       if (--pendingCount === 0) {
         if (noErrors === true) {
-          workerDeferred.resolve(
-            ret.map(([ _, val ]) => val)
-          )
+          workerDeferred.resolve(ret)
         } else {
-          workerDeferred.reject(
-            ret.filter(([ err ]) => err !== null)
-              .map(([ err ]) => err)
-          )
+          workerDeferred.reject(ret)
         }
       }
     })

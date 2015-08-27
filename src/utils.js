@@ -10,3 +10,15 @@ export const entries = function * (obj) {
     yield [ key, obj[key] ]
   }
 }
+
+export const filterMap = function (obj, filterFn) {
+  const map = {}
+
+  for (const [ k, v ] of entries(obj)) {
+    if (filterFn(v, k)) {
+      map[k] = v
+    }
+  }
+
+  return map
+}
