@@ -93,20 +93,20 @@ staticMethods.some = staticMethods.race = (deferreds) => {
 staticMethods.every = (deferreds) => {
   let noErrors = true
   let pendingCount = deferreds.length
-  const data = []
+  const ret = []
   const workerDeferred = new Deferred()
 
   for (const [ idx, deferred ] of deferreds.entries()) {
     deferred.then((val) => {
       if (noErrors === true) {
-        data[idx] = val
+        ret[idx] = val
         if (--pendingCount === 0) {
-          workerDeferred.resolve(data)
+          workerDeferred.resolve(ret)
         }
       }
     }, (err) => {
       noErrors = false
-      return Deferred.error(err)
+      workerDeferred.reject({ [idx]: err })
     })
   }
 
