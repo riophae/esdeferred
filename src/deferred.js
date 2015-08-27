@@ -1,5 +1,3 @@
-import Promise from 'yaku'
-
 import { callAsync } from './utils'
 
 class Deferred {
@@ -34,16 +32,25 @@ class Deferred {
   }
 
   _execute (callbackName, x) {
-    new Promise((resolve) => resolve(this.cb[callbackName](x)))
-      .then((val) => {
-        if (val && typeof val === 'object' && typeof val.then === 'function') {
-          val.then(this._afterFulfilled, this._afterRejected)
-        } else {
-          this._afterFulfilled(val)
-        }
-      }, (err) => {
+    let val, err
+    let noError = true
+
+    try {
+      val = this.cb[callbackName](x)
+    } catch (e) {
+      err = e
+      noError = false
+    }
+
+    if (val && typeof val === 'object' && typeof val.then === 'function') {
+      val.then(this._afterFulfilled, this._afterRejected)
+    } else {
+      if (noError === true) {
+        this._afterFulfilled(val)
+      } else {
         this._afterRejected(err)
-      })
+      }
+    }
   }
 
   _executeNext (callbackName, x) {
@@ -54,7 +61,7 @@ class Deferred {
 }
 
 Deferred.success = (val) => val
-Deferred.error = (err) => new Promise((_, reject) => reject(err))
+Deferred.error = (err) => { throw err }
 
 Deferred._executeAsync = (callbackName, x) => {
   const d = new Deferred()

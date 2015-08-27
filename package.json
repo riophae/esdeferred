@@ -30,9 +30,6 @@
   "bugs": {
     "url": "https://github.com/riophae/esdeferred/issues"
   },
-  "dependencies": {
-    "yaku": "^0.3.6"
-  },
   "devDependencies": {
     "babel": "^5.8.5",
     "del": "^1.2.0",
