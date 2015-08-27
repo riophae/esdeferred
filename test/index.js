@@ -70,7 +70,7 @@ function test3 () {
 function test4 () {
   const arr = [ 1, 2, 3, 4, 5 ].reverse()
   const deferreds = arr.map((num) => {
-    const delay = num * 200
+    const delay = num * 500
     console.log('#%d sleeping %dms...', num, delay)
     return Deferred.sleep(delay).then(() => {
       console.log('resolved:', num)
@@ -84,7 +84,7 @@ function test4 () {
 function test5 () {
   let d = Deferred.resolve()
   d.then(function () {
-    return Deferred.reject('err').then(log.bind(null, 'should not see this:')).catch((err) => {
+    return Deferred.reject('everthing is fine').then(log.bind(null, 'should not see this:')).catch((err) => {
       console.error('error:', err)
     })
   })
@@ -92,17 +92,11 @@ function test5 () {
 // test5()
 
 function test6 () {
-  let d_head = new DeferredAsync(() => {
-    return log(3)
-  })
+  let d_head = new DeferredAsync(() => log(3))
   d_head.resolve()
-  let d = d_head.then(() => {
-    return log(4)
-  })
+  let d = d_head.then(() => log(4))
   log(1)
-  d = d.then(() => {
-    return log(5)
-  })
+  d = d.then(() => log(5))
   log(2)
 }
 test6()
@@ -124,9 +118,3 @@ function test7 () {
   log(0)
 }
 // test7()
-
-function test8 () {
-  throwErr('an error')
-  console.log('An error should be thrown by esdeferred below:');
-}
-// test8()
