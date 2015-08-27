@@ -84,7 +84,7 @@ function test4 () {
 function test5 () {
   let d = Deferred.resolve()
   d.then(function () {
-    return Deferred.reject('err').then(log).catch((err) => {
+    return Deferred.reject('err').then(log.bind(null, 'should not see this:')).catch((err) => {
       console.error('error:', err)
     })
   })
@@ -126,7 +126,7 @@ function test7 () {
 // test7()
 
 function test8 () {
-  throwErr('esdeferred threw an error')
-  console.log('fine')
+  throwErr('an error')
+  console.log('An error should be thrown by esdeferred below:');
 }
 // test8()
