@@ -13,14 +13,4 @@ utils.entries = function * (obj) {
   }
 }
 
-utils.merge = (to, ...froms) => {
-  for (const from of froms) {
-    for (const [ k, v ] of utils.entries(from)) {
-      to[k] = v
-    }
-  }
-
-  return to
-}
-
 export default utils
