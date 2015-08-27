@@ -13,7 +13,7 @@
   ],
   "main": "lib/",
   "scripts": {
-    "lint": "eslint src/ && echo 'ESLint passed'",
+    "lint": "eslint src/ && echo 'ESLint passes ✔'",
     "test": "npm run lint && babel-node test/",
     "build": "npm test && babel-node ./node_modules/.bin/gulp"
   },
