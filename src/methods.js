@@ -40,20 +40,27 @@ staticMethods.reduce = staticMethods.serialize = (deferreds, initialVal) => {
 staticMethods.map = staticMethods.parallel = (deferreds) => {
   let noErrors = true
   let pendingCount = deferreds.length
-  const data = []
+  const ret = []
   const workerDeferred = new Deferred()
 
   for (const [ idx, deferred ] of deferreds.entries()) {
-    deferred.catch((err) => {
+    deferred.then((val) => {
+      return [ null, val ]
+    }, (err) => {
       noErrors = false
-      return err
-    }).then((x) => {
-      data[idx] = x
+      return [ err ]
+    }).then((arr) => {
+      ret[idx] = arr
       if (--pendingCount === 0) {
         if (noErrors === true) {
-          workerDeferred.resolve(data)
+          workerDeferred.resolve(
+            ret.map(([ _, val ]) => val)
+          )
         } else {
-          workerDeferred.reject(data)
+          workerDeferred.reject(
+            ret.filter(([ err ]) => err !== null)
+              .map(([ err ]) => err)
+          )
         }
       }
     })
