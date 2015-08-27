@@ -8,8 +8,8 @@ class DeferredAsync extends Deferred {
     super(onFulfilledAsync, onRejectedAsync)
   }
 
-  then (...callbacks) {
-    this._next = new DeferredAsync(...callbacks)
+  then (onFulfilled, onRejected) {
+    this._next = new DeferredAsync(onFulfilled, onRejected)
     return this._next
   }
 }

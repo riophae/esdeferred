@@ -12,8 +12,8 @@ class Deferred {
     this._afterRejected = this._executeNext.bind(this, 'onRejected')
   }
 
-  then (...callbacks) {
-    this._next = new Deferred(...callbacks)
+  then (onFulfilled, onRejected) {
+    this._next = new Deferred(onFulfilled, onRejected)
     return this._next
   }
 
@@ -36,7 +36,7 @@ class Deferred {
   _execute (callbackName, x) {
     new Promise((resolve) => resolve(this.cb[callbackName](x)))
       .then((val) => {
-        if (val != null && typeof val.then === 'function') {
+        if (val && typeof val === 'object' && typeof val.then === 'function') {
           val.then(this._afterFulfilled, this._afterRejected)
         } else {
           this._afterFulfilled(val)
