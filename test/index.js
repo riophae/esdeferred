@@ -1,4 +1,4 @@
-import { sync as Deferred, async as DeferredAsync } from '../src'
+import Deferred from '../src'
 import { throwErr } from '../src/utils'
 
 const log = (x) => {
@@ -90,31 +90,3 @@ function test5 () {
   })
 }
 // test5()
-
-function test6 () {
-  let d_head = new DeferredAsync(() => log(3))
-  d_head.resolve()
-  let d = d_head.then(() => log(4))
-  log(1)
-  d = d.then(() => log(5))
-  log(2)
-}
-test6()
-
-function test7 () {
-  let d = new DeferredAsync()
-  let t = d.then((val) => {
-    return log(val) + 1
-  }).then((val) => {
-    return log(val) + 1
-  }).always((val) => {
-    return Deferred.error(log(val) + 1)
-  }).catch((err) => {
-    return log(err) + 1
-  })
-  console.log(Object.getPrototypeOf(t) === DeferredAsync.prototype)
-  console.log(Object.getPrototypeOf(t) !== Deferred.prototype)
-  d.resolve(1)
-  log(0)
-}
-// test7()
