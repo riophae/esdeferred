@@ -23,6 +23,14 @@ class Deferred {
     return this.then(callback, callback)
   }
 
+  resolve (val) {
+    this._execute('onFulfilled', val)
+  }
+
+  reject (err) {
+    this._execute('onRejected', err)
+  }
+
   _execute (callbackName, x) {
     let val, err
     let noError = true
