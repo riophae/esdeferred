@@ -3,6 +3,4 @@ export const $internal = Object.freeze({
   executeNext: Symbol('Deferred#executeNext'),
   afterFulfilled: Symbol('Deferred@afterFulfilled'),
   afterRejected: Symbol('Deferred@afterRejected'),
-
-  executeAsync: Symbol('Deferred.executeAsync'),
 })

@@ -1,3 +1,4 @@
+import { callAsync } from './utils'
 import { $internal as $ } from './const'
 
 class Deferred {
@@ -60,6 +61,14 @@ class Deferred {
       this.next[$.execute](callbackName, x)
     }
   }
+
+  static executeAsync = (callbackName, x) => {
+    const d = new Deferred()
+    callAsync(() => d[$.execute](callbackName, x))
+    return d
+  }
+  static resolve = (val) => Deferred.executeAsync('onFulfilled', val)
+  static reject = (err) => Deferred.executeAsync('onRejected', err)
 }
 
 export { Deferred }
