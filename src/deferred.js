@@ -1,18 +1,18 @@
 import { callAsync } from './utils'
+import { $internal as $ } from './const'
 
 class Deferred {
   constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
     this.cb = { onFulfilled, onRejected }
+    this.next = null
 
-    this._next = null
-
-    this._afterFulfilled = this._executeNext.bind(this, 'onFulfilled')
-    this._afterRejected = this._executeNext.bind(this, 'onRejected')
+    this[$.afterFulfilled] = this[$.executeNext].bind(this, 'onFulfilled')
+    this[$.afterRejected] = this[$.executeNext].bind(this, 'onRejected')
   }
 
   then (onFulfilled, onRejected) {
-    this._next = new Deferred(onFulfilled, onRejected)
-    return this._next
+    this.next = new Deferred(onFulfilled, onRejected)
+    return this.next
   }
 
   catch (onRejected) {
@@ -24,14 +24,14 @@ class Deferred {
   }
 
   resolve (val) {
-    this._execute('onFulfilled', val)
+    this[$.execute]('onFulfilled', val)
   }
 
   reject (err) {
-    this._execute('onRejected', err)
+    this[$.execute]('onRejected', err)
   }
 
-  _execute (callbackName, x) {
+  [$.execute] (callbackName, x) {
     let val, err
     let noError = true
 
@@ -43,19 +43,19 @@ class Deferred {
     }
 
     if (val && typeof val.then === 'function') {
-      val.then(this._afterFulfilled, this._afterRejected)
+      val.then(this[$.afterFulfilled], this[$.afterRejected])
     } else {
       if (noError === true) {
-        this._afterFulfilled(val)
+        this[$.afterFulfilled](val)
       } else {
-        this._afterRejected(err)
+        this[$.afterRejected](err)
       }
     }
   }
 
-  _executeNext (callbackName, x) {
-    if (this._next !== null) {
-      this._next._execute(callbackName, x)
+  [$.executeNext] (callbackName, x) {
+    if (this.next !== null) {
+      this.next[$.execute](callbackName, x)
     }
   }
 }
@@ -63,12 +63,12 @@ class Deferred {
 Deferred.success = (val) => val
 Deferred.error = (err) => { throw err }
 
-Deferred._executeAsync = (callbackName, x) => {
+Deferred[$.executeAsync] = (callbackName, x) => {
   const d = new Deferred()
-  callAsync(() => d._execute(callbackName, x))
+  callAsync(() => d[$.execute](callbackName, x))
   return d
 }
-Deferred.resolve = (val) => Deferred._executeAsync('onFulfilled', val)
-Deferred.reject = (err) => Deferred._executeAsync('onRejected', err)
+Deferred.resolve = (val) => Deferred[$.executeAsync]('onFulfilled', val)
+Deferred.reject = (err) => Deferred[$.executeAsync]('onRejected', err)
 
 export { Deferred }

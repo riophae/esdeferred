@@ -32,7 +32,7 @@ staticMethods.sleep = instanceMethods.sleep = function (duration) {
 
 staticMethods.reduce = staticMethods.serialize = (deferreds, initialVal) => {
   return deferreds.reduce((lastDeferred, currentDeferred) => {
-    lastDeferred._next = currentDeferred
+    lastDeferred.next = currentDeferred
     return currentDeferred
   }, Deferred.resolve(initialVal))
 }
