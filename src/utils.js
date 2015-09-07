@@ -16,14 +16,14 @@ export const callAsync = (() => {
   if (!_nT) return sT
   if (!nT) return sI
 
-  let _ntN = 0
+  let _nTN = 0
 
   return function callAsync (fn) {
-    if (_ntN++ < 100) {
+    if (_nTN++ < 100) {
       nT(fn)
     } else {
       _nT(fn)
-      _ntN = 0
+      _nTN = 0
     }
   }
 })()
