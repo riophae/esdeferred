@@ -1,7 +1,9 @@
-import { callAsync } from './utils'
 import { $internal as $ } from './const'
 
 class Deferred {
+  static success = (val) => { return val }
+  static error = (err) => { throw err }
+
   constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
     this.cb = { onFulfilled, onRejected }
     this.next = null
@@ -59,16 +61,5 @@ class Deferred {
     }
   }
 }
-
-Deferred.success = (val) => val
-Deferred.error = (err) => { throw err }
-
-Deferred[$.executeAsync] = (callbackName, x) => {
-  const d = new Deferred()
-  callAsync(() => d[$.execute](callbackName, x))
-  return d
-}
-Deferred.resolve = (val) => Deferred[$.executeAsync]('onFulfilled', val)
-Deferred.reject = (err) => Deferred[$.executeAsync]('onRejected', err)
 
 export { Deferred }

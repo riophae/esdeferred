@@ -1,7 +1,17 @@
 import { Deferred } from './deferred'
+import { callAsync } from './utils'
+import { $internal as $ } from './const'
 
 const staticMethods = {}
 const instanceMethods = {}
+
+staticMethods[$.executeAsync] = (callbackName, x) => {
+  const d = new Deferred()
+  callAsync(() => d[$.execute](callbackName, x))
+  return d
+}
+staticMethods.resolve = (val) => Deferred[$.executeAsync]('onFulfilled', val)
+staticMethods.reject = (err) => Deferred[$.executeAsync]('onRejected', err)
 
 instanceMethods.spy = function (callback) {
   return this.then((val) => {
