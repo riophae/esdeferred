@@ -12,8 +12,9 @@ export const callAsync = (() => {
     sI = setImmediate
   }
 
-  const _nt = sI || nT
-  if (!_nt) return sT
+  const _nT = sI || nT
+  if (!_nT) return sT
+  if (!nT) return sI
 
   let _ntN = 0
 
@@ -21,7 +22,7 @@ export const callAsync = (() => {
     if (_ntN++ < 100) {
       nT(fn)
     } else {
-      _nt(fn)
+      _nT(fn)
       _ntN = 0
     }
   }
