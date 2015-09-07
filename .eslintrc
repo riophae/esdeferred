@@ -1,6 +1,7 @@
 {
   "extends": "./node_modules/eslint-config-standard/eslintrc.json",
   "rules": {
-    "prefer-const": 2
+    "prefer-const": 2,
+    "comma-dangle": [2, "always-multiline"]
   }
 }
