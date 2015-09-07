@@ -42,7 +42,7 @@ class Deferred {
       noError = false
     }
 
-    if (val && typeof val === 'object' && typeof val.then === 'function') {
+    if (val && typeof val.then === 'function') {
       val.then(this._afterFulfilled, this._afterRejected)
     } else {
       if (noError === true) {
