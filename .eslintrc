@@ -3,6 +3,7 @@
   "parser": "babel-eslint",
   "rules": {
     "prefer-const": 2,
-    "comma-dangle": [ 2, "always-multiline" ]
+    "comma-dangle": [ 2, "always-multiline" ],
+    "operator-linebreak": 0,
   }
 }
