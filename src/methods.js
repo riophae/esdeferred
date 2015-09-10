@@ -23,7 +23,7 @@ staticMethods.sleep = instanceMethods.sleep = function (duration) {
   const d = this instanceof Deferred ?
     this : Deferred.resolve()
 
-  return d.spy((x) => {
+  return d.spy(() => {
     const sleepDeferred = new Deferred()
     setTimeout(() => sleepDeferred.resolve(), duration)
     return sleepDeferred
@@ -49,8 +49,8 @@ staticMethods.map = staticMethods.parallel = (deferreds) => {
     }, (err) => {
       noErrors = false
       return [ err ]
-    }).then((arr) => {
-      ret[idx] = arr
+    }).then(([ err, val ]) => {
+      ret[idx] = [ err, val ]
       if (--pendingCount === 0) {
         if (noErrors === true) {
           workerDeferred.resolve(ret)
