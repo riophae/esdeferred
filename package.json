@@ -1,7 +1,7 @@
 {
   "name": "esdeferred",
   "version": "0.0.1",
-  "description": "A lightweight Deferred implementation written in ECMAScript 6, inspired by JSDeferred",
+  "description": "A lightweight Deferred implementation written in ECMAScript 7, inspired by JSDeferred",
   "homepage": "https://github.com/riophae/esdeferred",
   "repository": {
     "type": "git",
@@ -20,8 +20,9 @@
   "keywords": [
     "deferred",
     "flow",
+    "control",
     "async",
-    "es6"
+    "ecmascript"
   ],
   "license": "MIT",
   "bugs": {
