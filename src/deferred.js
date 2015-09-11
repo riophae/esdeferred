@@ -2,8 +2,8 @@ import { callAsync } from './utils'
 import { $internal as $ } from './const'
 
 class Deferred {
-  static success = (val) => { return val }
-  static error = (err) => { throw err }
+  static success (val) { return val }
+  static error (err) { throw err }
 
   constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
     this.funcs = { onFulfilled, onRejected }
@@ -62,13 +62,13 @@ class Deferred {
     }
   }
 
-  static executeAsync = (funcName, x) => {
+  static [$.executeAsync] (funcName, x) {
     const d = new Deferred()
     callAsync(() => d[$.execute](funcName, x))
     return d
   }
-  static resolve = (val) => Deferred.executeAsync('onFulfilled', val)
-  static reject = (err) => Deferred.executeAsync('onRejected', err)
+  static resolve = (val) => Deferred[$.executeAsync]('onFulfilled', val)
+  static reject = (err) => Deferred[$.executeAsync]('onRejected', err)
 }
 
 export { Deferred }
