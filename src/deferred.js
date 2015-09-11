@@ -6,7 +6,7 @@ class Deferred {
   static error = (err) => { throw err }
 
   constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
-    this.cb = { onFulfilled, onRejected }
+    this.funcs = { onFulfilled, onRejected }
     this.next = null
 
     this[$.afterFulfilled] = this[$.executeNext].bind(this, 'onFulfilled')
@@ -22,8 +22,8 @@ class Deferred {
     return this.then(Deferred.success, onRejected)
   }
 
-  always (callback) {
-    return this.then(callback, callback)
+  always (func) {
+    return this.then(func, func)
   }
 
   resolve (val) {
@@ -34,12 +34,12 @@ class Deferred {
     this[$.execute]('onRejected', err)
   }
 
-  [$.execute] (callbackName, x) {
+  [$.execute] (funcName, x) {
     let val, err
     let noError = true
 
     try {
-      val = this.cb[callbackName](x)
+      val = this.funcs[funcName](x)
     } catch (e) {
       err = e
       noError = false
@@ -56,15 +56,15 @@ class Deferred {
     }
   }
 
-  [$.executeNext] (callbackName, x) {
+  [$.executeNext] (funcName, x) {
     if (this.next !== null) {
-      this.next[$.execute](callbackName, x)
+      this.next[$.execute](funcName, x)
     }
   }
 
-  static executeAsync = (callbackName, x) => {
+  static executeAsync = (funcName, x) => {
     const d = new Deferred()
-    callAsync(() => d[$.execute](callbackName, x))
+    callAsync(() => d[$.execute](funcName, x))
     return d
   }
   static resolve = (val) => Deferred.executeAsync('onFulfilled', val)
