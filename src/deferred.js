@@ -45,7 +45,7 @@ class Deferred {
       noError = false
     }
 
-    if (val && typeof val.then === 'function') {
+    if (val != null && typeof val.then === 'function') {
       val.then(this[$.afterFulfilled], this[$.afterRejected])
     } else {
       if (noError === true) {
