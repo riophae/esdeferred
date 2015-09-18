@@ -9,10 +9,10 @@ export default function loop (n, fun) {
     prev: null,
   }
 
-  let ret
+  let ret = null
   const { step } = o
 
-  return Deferred.resolve().then(function () {
+  return Deferred.call(() => {
     function _loop (i) {
       if (i <= o.end) {
         if ((i + step) > o.end) {
@@ -21,17 +21,16 @@ export default function loop (n, fun) {
         }
         o.prev = ret
 
-        const d = new Deferred(() => fun(i, o))
-        d.then((r) => {
-          ret = r
-          return Deferred.resolve(i + step).then(_loop)
-        })
-        d.resolve()
+        return Deferred.call(() => fun(i, o))
+          .then((r) => {
+            ret = r
+            return Deferred.call(_loop, i + step)
+          })
       } else {
         return ret
       }
     }
 
-    return (o.begin <= o.end) ? Deferred.resolve(o.begin).then(_loop) : null
+    return _loop(o.begin)
   })
 }
