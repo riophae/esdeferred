@@ -1,6 +1,3 @@
-/* eslint no-labels:0 */
-/* eslint no-empty-label:0 */
-
 import Deferred from '../../src'
 
 export default function repeat (n, f) {
