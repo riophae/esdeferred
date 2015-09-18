@@ -1,7 +1,14 @@
 import { Deferred } from './deferred'
+import { callAsync } from './utils'
 
 const staticMethods = {}
 const instanceMethods = {}
+
+staticMethods.call = (func, val) => {
+  const d = new Deferred(func)
+  callAsync(() => d.resolve(val))
+  return d
+}
 
 instanceMethods.spy = function (callback) {
   return this.then((val) => {
