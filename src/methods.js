@@ -5,17 +5,9 @@ const instanceMethods = {}
 
 instanceMethods.spy = function (callback) {
   return this.then((val) => {
-    return Deferred.call(() => {
-      return callback(val)
-    }).always(() => {
-      return Deferred.success(val)
-    })
+    return Deferred.call(callback, val).always(() => Deferred.success(val))
   }, (err) => {
-    return Deferred.call(() => {
-      return callback(err)
-    }).always(() => {
-      return Deferred.error(err)
-    })
+    return Deferred.call(callback, err).always(() => Deferred.error(err))
   })
 }
 
