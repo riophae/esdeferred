@@ -1,6 +1,6 @@
 import Deferred from '../../src'
 
-export default function loop (n, fun) {
+export default function loop (n, func) {
   const o = {
     begin: n.begin || 0,
     end: (typeof n.end === 'number') ? n.end : n - 1,
@@ -21,7 +21,7 @@ export default function loop (n, fun) {
         }
         o.prev = ret
 
-        return Deferred.call(() => fun(i, o))
+        return Deferred.call(() => func(i, o))
           .then((r) => {
             ret = r
             return Deferred.call(_loop, i + step)
