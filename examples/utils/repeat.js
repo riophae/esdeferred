@@ -3,7 +3,7 @@ import Deferred from '../../src'
 export default function repeat (n, f) {
   let i = 0
 
-  const worker = () => Deferred.resolve().then(() => {
+  const worker = () => Deferred.call(() => {
     const t = Date.now()
 
     do {
