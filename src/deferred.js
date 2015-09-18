@@ -69,6 +69,12 @@ class Deferred {
   }
   static resolve = (val) => Deferred[$.executeAsync]('onFulfilled', val)
   static reject = (err) => Deferred[$.executeAsync]('onRejected', err)
+
+  static call (func, val) {
+    const d = new Deferred(func)
+    callAsync(() => d.resolve(val))
+    return d
+  }
 }
 
 export { Deferred }
