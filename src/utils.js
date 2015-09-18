@@ -4,7 +4,7 @@ export const callAsync = (() => {
   let nT, sI
   const sT = (fn) => setTimeout(fn, 0)
 
-  if (typeof process !== 'undefined' && process && typeof process.nextTick === 'function') {
+  if (typeof process !== 'undefined' && process != null && typeof process.nextTick === 'function') {
     nT = process.nextTick
   }
 
