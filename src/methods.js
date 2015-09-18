@@ -1,4 +1,5 @@
 import { Deferred } from './deferred'
+import { callAsync } from './utils'
 
 const staticMethods = {}
 const instanceMethods = {}
@@ -11,15 +12,14 @@ instanceMethods.spy = function (callback) {
   })
 }
 
-staticMethods.sleep = instanceMethods.sleep = function (duration) {
-  const d = this instanceof Deferred ?
-    this : Deferred.resolve()
+staticMethods.sleep = (duration) => {
+  const d = new Deferred()
+  callAsync(() => d.resolve(), duration)
+  return d
+}
 
-  return d.spy(() => {
-    const sleepDeferred = new Deferred()
-    setTimeout(() => sleepDeferred.resolve(), duration)
-    return sleepDeferred
-  })
+instanceMethods.sleep = function (duration) {
+  return this.spy(() => Deferred.sleep(duration))
 }
 
 staticMethods.reduce = staticMethods.serialize = (deferreds, initialVal) => {
