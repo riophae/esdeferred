@@ -19,7 +19,7 @@ function test1 () {
     return d
   }).then(function (val) {
     console.log(val)
-    return Deferred.error('test err')
+    return Deferred.failure('test err')
   }).catch(function (err) {
     console.error(err)
     throw err
@@ -60,7 +60,7 @@ function test3 () {
   }).sleep(1000).then((val) => {
     log(val)
     log('going to sleep...')
-    return Deferred.error(val)
+    return Deferred.failure(val)
   }).sleep(1000).catch((err) => {
     console.error('expected error:', err)
   })
@@ -72,14 +72,15 @@ function test4 () {
   const deferreds = arr.map((num) => {
     const delay = num * 500
     console.log('#%d sleeping %dms...', num, delay)
+    const t = Date.now();
     return Deferred.sleep(delay).then(() => {
-      console.log('resolved:', num)
+      console.log(`resolved in ${Date.now() - t}ms:`, num)
       return num * 100
     })
   })
   Deferred.map(deferreds).then((result) => console.log('result', result))
 }
-// test4()
+test4()
 
 function test5 () {
   let d = Deferred.resolve()
