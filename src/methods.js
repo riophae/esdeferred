@@ -1,20 +1,19 @@
 import { Deferred } from './deferred'
-import { callAsync } from './utils'
 
-const staticMethods = {}
-const instanceMethods = {}
+export const staticMethods = {}
+export const instanceMethods = {}
 
 instanceMethods.spy = function (callback) {
   return this.then((val) => {
     return Deferred.call(callback, val).always(() => Deferred.success(val))
   }, (err) => {
-    return Deferred.call(callback, err).always(() => Deferred.error(err))
+    return Deferred.call(callback, err).always(() => Deferred.failure(err))
   })
 }
 
 staticMethods.sleep = (duration) => {
   const d = new Deferred()
-  callAsync(() => d.resolve(), duration)
+  setTimeout(() => d.resolve(), duration)
   return d
 }
 
@@ -104,5 +103,3 @@ staticMethods.every = (deferreds) => {
 
   return workerDeferred
 }
-
-export { staticMethods, instanceMethods }

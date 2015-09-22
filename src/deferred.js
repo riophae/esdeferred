@@ -3,9 +3,9 @@ import { $internal as $ } from './const'
 
 class Deferred {
   static success (val) { return val }
-  static error (err) { throw err }
+  static failure (err) { throw err }
 
-  constructor (onFulfilled = Deferred.success, onRejected = Deferred.error) {
+  constructor (onFulfilled = Deferred.success, onRejected = Deferred.failure) {
     this.funcs = { onFulfilled, onRejected }
     this.next = null
 
