@@ -39,7 +39,7 @@ class Deferred {
     let noError = true
 
     try {
-      val = this.funcs[funcName](x)
+      val = this.funcs[funcName].call(null, x)
     } catch (e) {
       err = e
       noError = false
