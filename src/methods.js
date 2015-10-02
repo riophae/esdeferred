@@ -34,7 +34,7 @@ staticMethods.map = staticMethods.parallel = (deferreds) => {
   const ret = []
   const workerDeferred = new Deferred()
 
-  for (const [ idx, deferred ] of deferreds.entries()) {
+  deferreds.forEach((deferred, idx) => {
     deferred.then((val) => {
       return [ null, val ]
     }, (err) => {
@@ -50,7 +50,7 @@ staticMethods.map = staticMethods.parallel = (deferreds) => {
         }
       }
     })
-  }
+  })
 
   return workerDeferred
 }
@@ -61,7 +61,7 @@ staticMethods.some = staticMethods.race = (deferreds) => {
   const errors = []
   const workerDeferred = new Deferred()
 
-  for (const [ idx, deferred ] of deferreds.entries()) {
+  deferreds.forEach((deferred, idx) => {
     deferred.then((val) => {
       if (pending === true) {
         pending = false
@@ -76,7 +76,7 @@ staticMethods.some = staticMethods.race = (deferreds) => {
         }
       }
     })
-  }
+  })
 
   return workerDeferred
 }
@@ -87,7 +87,7 @@ staticMethods.every = (deferreds) => {
   const ret = []
   const workerDeferred = new Deferred()
 
-  for (const [ idx, deferred ] of deferreds.entries()) {
+  deferreds.forEach((deferred, idx) => {
     deferred.then((val) => {
       if (noErrors === true) {
         ret[idx] = val
@@ -99,7 +99,7 @@ staticMethods.every = (deferreds) => {
       noErrors = false
       workerDeferred.reject({ [idx]: err })
     })
-  }
+  })
 
   return workerDeferred
 }
