@@ -34,25 +34,23 @@ staticMethods.map = staticMethods.parallel = (deferreds) => {
   const ret = []
   const workerDeferred = new Deferred()
 
-  const onFulfilled = (val) => [ null, val ]
-  const onRejected = (err) => {
-    noErrors = false
-    return [ err ]
-  }
-  const onFinished = (idx, [ err, val ]) => {
-    ret[idx] = [ err, val ]
-    if (--pendingCount === 0) {
-      if (noErrors === true) {
-        workerDeferred.resolve(ret)
-      } else {
-        workerDeferred.reject(ret)
+  for (const [ idx, deferred ] of deferreds.entries()) {
+    deferred.then((val) => {
+      return [ null, val ]
+    }, (err) => {
+      noErrors = false
+      return [ err ]
+    }).then(([ err, val ]) => {
+      ret[idx] = [ err, val ]
+      if (--pendingCount === 0) {
+        if (noErrors === true) {
+          workerDeferred.resolve(ret)
+        } else {
+          workerDeferred.reject(ret)
+        }
       }
-    }
+    })
   }
-
-  deferreds.forEach((deferred, idx) => {
-    deferred.then(onFulfilled, onRejected).then(onFinished.bind(null, idx))
-  })
 
   return workerDeferred
 }
@@ -63,25 +61,22 @@ staticMethods.some = staticMethods.race = (deferreds) => {
   const errors = []
   const workerDeferred = new Deferred()
 
-  const onFulfilled = (val) => {
-    if (pending === true) {
-      pending = false
-      workerDeferred.resolve(val)
-    }
-  }
-  const onRejected = (idx, err) => {
-    if (pending === true) {
-      errors[idx] = err
-      if (--pendingCount === 0) {
+  for (const [ idx, deferred ] of deferreds.entries()) {
+    deferred.then((val) => {
+      if (pending === true) {
         pending = false
-        workerDeferred.reject(errors)
+        workerDeferred.resolve(val)
       }
-    }
+    }, (err) => {
+      if (pending === true) {
+        errors[idx] = err
+        if (--pendingCount === 0) {
+          pending = false
+          workerDeferred.reject(errors)
+        }
+      }
+    })
   }
-
-  deferreds.forEach((deferred, idx) => {
-    deferred.then(onFulfilled, onRejected.bind(null, idx))
-  })
 
   return workerDeferred
 }
@@ -92,24 +87,19 @@ staticMethods.every = (deferreds) => {
   const ret = []
   const workerDeferred = new Deferred()
 
-  const onFulfilled = (idx, val) => {
-    if (noErrors === true) {
-      ret[idx] = val
-      if (--pendingCount === 0) {
-        workerDeferred.resolve(ret)
+  for (const [ idx, deferred ] of deferreds.entries()) {
+    deferred.then((val) => {
+      if (noErrors === true) {
+        ret[idx] = val
+        if (--pendingCount === 0) {
+          workerDeferred.resolve(ret)
+        }
       }
-    }
-  }
-  const onRejected = (idx, err) => {
-    if (noErrors === true) {
+    }, (err) => {
       noErrors = false
       workerDeferred.reject({ [idx]: err })
-    }
+    })
   }
-
-  deferreds.forEach((deferred, idx) => {
-    deferred.then(onFulfilled.bind(null, idx), onRejected.bind(null, idx))
-  })
 
   return workerDeferred
 }
