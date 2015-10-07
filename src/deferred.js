@@ -1,7 +1,7 @@
 import { callAsync } from './utils'
 import { $internal as $ } from './const'
 
-class Deferred {
+export class Deferred {
   static success (val) { return val }
   static failure (err) { throw err }
 
@@ -76,5 +76,3 @@ class Deferred {
     return d
   }
 }
-
-export { Deferred }
