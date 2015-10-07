@@ -1,4 +1,4 @@
-import Deferred from '../src'
+import Deferred, { Promise } from '../src'
 import { throwErr } from '../src/utils'
 
 const log = (x) => {
@@ -80,7 +80,7 @@ function test4 () {
   })
   Deferred.map(deferreds).then((result) => console.log('result', result))
 }
-test4()
+// test4()
 
 function test5 () {
   let d = Deferred.resolve()
@@ -91,3 +91,9 @@ function test5 () {
   })
 }
 // test5()
+
+function test6 () {
+  const p = new Promise((res) => res(100))
+  p.then(log)
+}
+test6()
