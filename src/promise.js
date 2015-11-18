@@ -1,10 +1,10 @@
 import { Deferred } from './deferred'
-import { callAsync } from './utils'
+import nextTick from 'next-tick'
 
 export class Promise {
   constructor (func) {
     const d = new Deferred()
-    callAsync(() => func(::d.resolve, ::d.reject))
+    nextTick(() => func(::d.resolve, ::d.reject))
     return d
   }
 }

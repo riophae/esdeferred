@@ -1,4 +1,4 @@
-import { callAsync } from './utils'
+import nextTick from 'next-tick'
 import { $internal as $ } from './const'
 
 export class Deferred {
@@ -64,7 +64,7 @@ export class Deferred {
 
   static [$.executeAsync] (funcName, x) {
     const d = new Deferred()
-    callAsync(() => d[$.execute](funcName, x))
+    nextTick(() => d[$.execute](funcName, x))
     return d
   }
   static resolve = (val) => Deferred[$.executeAsync]('onFulfilled', val)
@@ -72,7 +72,7 @@ export class Deferred {
 
   static call (func, val) {
     const d = new Deferred(func)
-    callAsync(() => d.resolve(val))
+    nextTick(() => d.resolve(val))
     return d
   }
 }

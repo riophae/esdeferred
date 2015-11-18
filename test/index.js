@@ -1,5 +1,4 @@
 import Deferred, { Promise } from '../src'
-import { throwErr } from '../src/utils'
 
 const log = (x) => {
   console.log(x)
